@@ -1,10 +1,34 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"os"
+	"strconv"
+)
+
+const accountBalanceFile = "balance.txt"
+
+func getBalanceFromFile() float64 {
+	// Read the balance from a file
+	balanceText, err := os.ReadFile(accountBalanceFile)
+	if err != nil {
+		return 0
+	}
+	balance, _ := strconv.ParseFloat(string(balanceText), 64)
+	return balance
+}
+func writeBalanceToFile(balance float64) {
+	// Write the balance to a file
+	balanceText := fmt.Sprint(balance)
+	err := os.WriteFile(accountBalanceFile, []byte(balanceText), 0644)
+	if err != nil {
+		fmt.Println("Failed to save balance to file")
+	}
+}
 
 func main() {
 	fmt.Println("Welcome to the Bank!") // Print welcome message2
-	balance := float64(0)
+	balance := getBalanceFromFile()
 Loop:
 	for {
 		fmt.Println("1. Check your balance")
@@ -34,6 +58,7 @@ Loop:
 				return
 			}
 			balance += deposit
+			writeBalanceToFile(balance)
 			fmt.Println("You have deposited:", deposit)
 			fmt.Println("Your balance is:", balance)
 		case 3:
@@ -49,8 +74,10 @@ Loop:
 			}
 			if withdraw > balance {
 				fmt.Println("You don't have enough money to withdraw")
+				fmt.Println("Your balance is:", balance)
 			} else {
 				balance -= withdraw
+				writeBalanceToFile(balance)
 				fmt.Println("You have withdrawn:", withdraw)
 				fmt.Println("Your balance:", balance)
 			}
