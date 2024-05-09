@@ -31,10 +31,7 @@ func main() {
 	balance := getBalanceFromFile()
 Loop:
 	for {
-		fmt.Println("1. Check your balance")
-		fmt.Println("2. Deposit money")
-		fmt.Println("3. Withdraw money")
-		fmt.Println("4. Exit")
+		presentOptions()
 		var choice int
 		fmt.Print("Please enter your choice:")
 		_, err := fmt.Scan(&choice)
