@@ -7,9 +7,9 @@ func main() {
 	var expenses float64
 	var taxRate float64
 
-	revenue= scanValue("Introduce the revenue:")
-	expenses= scanValue("Introduce the expenses:")
-	taxRate= scanValue("Introduce the tax rate:")
+	revenue = scanValue("Introduce the revenue:")
+	expenses = scanValue("Introduce the expenses:")
+	taxRate = scanValue("Introduce the tax rate:")
 	// fmt.Print("Introduce the revenue: ")
 	// fmt.Scan(&revenue)
 	// fmt.Print("Introduce the expenses: ")
@@ -31,10 +31,13 @@ func calculateFutureValues(revenue, expenses, taxRate float64) (earningsBT float
 	return
 }
 
-//function that get a text and prints the text and scans the value from the user, return the value the user inputs.
+// function that get a text and prints the text and scans the value from the user, return the value the user inputs.
 func scanValue(text string) (value float64) {
 
 	fmt.Print(text)
-	fmt.Scan(&value)
+	_, err := fmt.Scan(&value)
+	if err != nil {
+		return 0
+	}
 	return value
 }
