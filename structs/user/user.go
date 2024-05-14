@@ -34,11 +34,14 @@ func NewPatient(firstName, lastName, birthday string, roomNumber int) (*Patient,
 	}, nil
 }
 
-func (p Person) getFullName() string {
+func (p *Person) getFullName() string {
 	return p.firstName + " " + p.lastName
 }
+func (p *Person) editFirstName(newName string) {
+	p.firstName = newName
+}
 
-func (p Person) PrintPerson() {
+func (p *Person) PrintPerson() {
 	fmt.Println("First name:", p.firstName)
 	fmt.Println("Last name:", p.lastName)
 	fmt.Println("Birthday:", p.birthday)
