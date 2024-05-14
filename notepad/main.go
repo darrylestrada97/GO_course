@@ -7,10 +7,17 @@ import (
 	"strings"
 
 	"example.com/notepad/note"
+	"example.com/notepad/todo"
 )
 
 func main() {
 	title, content := getNoteData()
+	todoText := getTodoData()
+	tod, err := todo.New(todoText)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 
 	userNote, err := note.New(title, content)
 
@@ -18,7 +25,13 @@ func main() {
 		fmt.Println(err)
 		return
 	}
-
+	tod.Display()
+	err = tod.Save()
+	if err != nil {
+		fmt.Println("Saving the TODO failed.")
+		return
+	}
+	fmt.Println("Saving the TODO succeeded!")
 	userNote.Display()
 	err = userNote.Save()
 
@@ -29,7 +42,10 @@ func main() {
 
 	fmt.Println("Saving the note succeeded!")
 }
-
+func getTodoData() (content string) {
+	content = getUserInput("Todo content:")
+	return
+}
 func getNoteData() (string, string) {
 	title := getUserInput("Note title:")
 	content := getUserInput("Note content:")
