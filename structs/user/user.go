@@ -13,6 +13,27 @@ type Person struct {
 	createdAt time.Time
 }
 
+type Patient struct {
+	roomNumber int
+	Person
+}
+
+func (p Patient) PrintPatient() {
+	fmt.Println("Room number:", p.roomNumber)
+	p.PrintPerson()
+}
+
+func NewPatient(firstName, lastName, birthday string, roomNumber int) (*Patient, error) {
+	p, err := New(firstName, lastName, birthday)
+	if err != nil {
+		return nil, err
+	}
+	return &Patient{
+		roomNumber: roomNumber,
+		Person:     *p,
+	}, nil
+}
+
 func (p Person) getFullName() string {
 	return p.firstName + " " + p.lastName
 }
@@ -23,10 +44,9 @@ func (p Person) PrintPerson() {
 	fmt.Println("Birthday:", p.birthday)
 	// format createdAt time to human-readable format
 	fmt.Println("created at:", p.createdAt.Format("2006-01-02 15:04:05"))
-
 }
 
-func NewPerson(firstName, lastName, birthday string) (*Person, error) {
+func New(firstName, lastName, birthday string) (*Person, error) {
 
 	if firstName == "" || lastName == "" || birthday == "" {
 		return nil, errors.New("all fields are required")
