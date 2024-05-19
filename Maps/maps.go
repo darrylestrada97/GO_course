@@ -2,6 +2,8 @@ package main
 
 import "fmt"
 
+type floatMap map[string]float64
+
 func main() {
 	// Replace
 
