@@ -2,12 +2,18 @@ package main
 
 import "fmt"
 
-type floatMap map[string]float64
+type strString map[string]string
+
+func (f strString) print() {
+	for key, value := range f {
+		fmt.Printf("%s: %s\n", key, value)
+	}
+}
 
 func main() {
 	// Replace
 
-	userNames := make(map[string]string, 10)
+	userNames := make(strString, 10)
 	fmt.Printf("Address of userNames map: %p\n", &userNames)
 	fmt.Printf("Type of userNames map: %T\n", userNames)
 	fmt.Println(userNames, len(userNames))
@@ -19,5 +25,7 @@ func main() {
 	delete(userNames, "Ford")
 	fmt.Println("After deleting Ford")
 	fmt.Println(userNames, len(userNames))
+
+	userNames.print()
 
 }
