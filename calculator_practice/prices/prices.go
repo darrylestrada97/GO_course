@@ -2,6 +2,7 @@ package prices
 
 import (
 	"bufio"
+	"example.com/calculator/conversion"
 	"fmt"
 	"log"
 	"os"
@@ -29,9 +30,15 @@ func (t *TaxIncludedPriceJob) LoadData() {
 		log.Fatal("Error: ", scanner.Err())
 	}
 
-	prices := make([]float64, len(lines))
-
+	prices, err := conversion.StringToFloats(lines)
+	if err != nil {
+		log.Fatal("Error: ", err)
+		file.Close()
+		return
+	}
 	t.InputPrices = prices
+	file.Close()
+
 }
 func (t *TaxIncludedPriceJob) Calculate() {
 	t.LoadData()
