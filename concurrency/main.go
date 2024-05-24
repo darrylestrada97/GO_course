@@ -7,7 +7,6 @@ import (
 
 func main() {
 	greet("I am a synchronous function")
-
 	go slowGreet("I am a slow goroutine")
 	go greet("I am a goroutine")
 	fmt.Println("Main function")
