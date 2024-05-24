@@ -14,7 +14,11 @@ type TaxIncludedPriceJob struct {
 }
 
 func (t *TaxIncludedPriceJob) LoadData() {
-	lines := filemanager.ReadLines("prices.txt")
+	lines, err := filemanager.ReadLines("prices.txt")
+	if err != nil {
+		log.Println("Error: ", err)
+		return
+	}
 	prices, err := conversion.StringToFloats(lines)
 	if err != nil {
 		log.Fatal("Error: ", err)
@@ -28,7 +32,11 @@ func (t *TaxIncludedPriceJob) Calculate() {
 	for _, price := range t.InputPrices {
 		t.TaxIncludedPrices[fmt.Sprintf("%.2f", price)] = fmt.Sprintf("%2.f", price*(1+t.TaxRate))
 	}
-	fmt.Println(t.TaxIncludedPrices)
+	err := filemanager.WriteJson(fmt.Sprintf("tax_included_prices_%v.json", t.TaxRate), t)
+	if err != nil {
+		log.Fatal("Error: ", err)
+
+	}
 }
 
 func NewTaxIncludedPriceJob(taxRate float64) *TaxIncludedPriceJob {

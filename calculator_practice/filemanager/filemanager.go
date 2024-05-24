@@ -2,17 +2,17 @@ package filemanager
 
 import (
 	"bufio"
-	"fmt"
+	"encoding/json"
+	"errors"
 	"log"
 	"os"
 )
 
-func ReadLines(path string) []string {
+func ReadLines(path string) ([]string, error) {
 	file, err := os.Open(path)
 	if err != nil {
-		log.Fatal("Error: ", err)
+		return nil, err
 	}
-
 	scanner := bufio.NewScanner(file)
 	var lines []string
 	for scanner.Scan() {
@@ -22,11 +22,25 @@ func ReadLines(path string) []string {
 	if err != nil {
 		err = file.Close()
 		if err != nil {
-			fmt.Print("Error: ", err)
+			return nil, err
 		}
 		log.Fatal("Error: ", scanner.Err())
 
 	}
 	_ = file.Close()
-	return lines
+	return lines, nil
+}
+
+func WriteJson(path string, data any) error {
+	file, err := os.Create(path)
+	if err != nil {
+		return errors.New("failed to create file")
+	}
+	err = json.NewEncoder(file).Encode(data)
+	if err != nil {
+		_ = file.Close()
+		return errors.New("failed to encode data")
+	}
+	err = file.Close()
+	return nil
 }
