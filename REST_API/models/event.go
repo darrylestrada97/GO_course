@@ -1,6 +1,11 @@
 package models
 
-import "time"
+import (
+	"database/sql"
+	"example/rest_api/db"
+	"fmt"
+	"time"
+)
 
 type Event struct {
 	ID          int       `json:"id"`
@@ -13,9 +18,28 @@ type Event struct {
 
 var events []Event
 
-func (e Event) Save() {
+func (e Event) Save() error {
 	// save the event to the database
-	events = append(events, e)
+
+	query := ` INSERT INTO events(name, description, location, dateTime, user_id)
+	 VALUES(?, ?, ?, ?, ?)`
+	prepare, err := db.DB.Prepare(query)
+	if err != nil {
+		return err
+	}
+	defer func(prepare *sql.Stmt) {
+		err := prepare.Close()
+		if err != nil {
+			fmt.Println("Error: ", err)
+		}
+	}(prepare)
+	result, err := prepare.Exec(e.Name, e.Description, e.Location, e.DateTime, e.UserID)
+	if err != nil {
+		return err
+	}
+	id, err := result.LastInsertId()
+	e.ID = int(id)
+	return err
 }
 
 func GetAllEvents() []Event {
