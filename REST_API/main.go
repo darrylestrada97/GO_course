@@ -13,6 +13,7 @@ func main() {
 	server := gin.Default()
 
 	server.GET("/events", getEvents)
+	server.GET("/events/:id", getEvent)
 	server.POST("/events", createEvents)
 	server.GET("/ping", func(c *gin.Context) {
 		c.JSON(200, gin.H{
@@ -26,6 +27,19 @@ func main() {
 	}
 }
 
+func getEvent(c *gin.Context) {
+	id := c.Param("id")
+	event, err := models.GetEvent(id)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "could not parse id",
+		})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"result": event,
+	})
+}
 func createEvents(c *gin.Context) {
 	var event models.Event
 	err := c.ShouldBindJSON(&event)
