@@ -36,9 +36,7 @@ func getEvent(c *gin.Context) {
 		})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{
-		"result": event,
-	})
+	c.JSON(http.StatusOK, event)
 }
 func createEvents(c *gin.Context) {
 	var event models.Event
