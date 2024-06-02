@@ -11,4 +11,5 @@ func RegisterRoutes(server *gin.Engine) {
 			"message": "pong",
 		})
 	})
+	server.PUT("/events/:id", UpdateEvent)
 }
