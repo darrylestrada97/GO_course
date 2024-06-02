@@ -16,8 +16,6 @@ type Event struct {
 	UserID      int       `json:"user_id"`
 }
 
-var events []Event
-
 func (e Event) Save() error {
 	// save the event to the database
 
@@ -43,7 +41,7 @@ func (e Event) Save() error {
 }
 
 func GetAllEvents() ([]Event, error) {
-
+	var events []Event
 	query := `SELECT * FROM events`
 	rows, err := db.DB.Query(query)
 	if err != nil {
@@ -80,4 +78,23 @@ func GetEvent(id string) (*Event, error) {
 	}
 
 	return &event, nil
+}
+
+func (e Event) Update() error {
+
+	query := `UPDATE events SET name = ?, description = ?, location = ?, dateTime = ?, user_id = ? WHERE id = ?`
+	prepare, err := db.DB.Prepare(query)
+	if err != nil {
+		return err
+	}
+
+	defer func(prepare *sql.Stmt) {
+		_ = prepare.Close()
+	}(prepare)
+
+	_, err = prepare.Exec(e.Name, e.Description, e.Location, e.DateTime, e.UserID, e.ID)
+	if err != nil {
+		fmt.Println("Error: ", err)
+	}
+	return err
 }
