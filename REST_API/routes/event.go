@@ -12,7 +12,7 @@ func GetEvent(c *gin.Context) {
 	event, err := models.GetEvent(id)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "could not parse id",
+			"error": "Could not fetch event",
 		})
 		return
 	}
@@ -61,7 +61,7 @@ func UpdateEvent(c *gin.Context) {
 	event, err := models.GetEvent(id)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": "could not parse id",
+			"error": "Could not fetch event",
 		})
 		return
 	}
@@ -79,7 +79,7 @@ func UpdateEvent(c *gin.Context) {
 	err = updatedEvent.Update()
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": "could not update event",
+			"error": "Could not fetch event",
 		})
 		return
 	}
@@ -93,7 +93,7 @@ func DeleteEvent(c *gin.Context) {
 	event, err := models.GetEvent(id)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": "could not parse id",
+			"error": "Could not fetch event",
 		})
 		return
 	}

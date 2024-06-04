@@ -2,9 +2,9 @@ POST localhost:8080/events
 content-type: application/jsonDateTime
 
 {
-  "Name": "Event 1",
+  "Name": "Event 5",
   "Description": "Event 1 description",
   "DateTime": "2021-12-31T23:59:59.000Z",
-  "Location": "Event 1 location"
+  "Location": "Event 5 location"
 }
 
