@@ -3,6 +3,8 @@ package models
 import (
 	"database/sql"
 	"example/rest_api/db"
+	"example/rest_api/utils"
+	"fmt"
 )
 
 type User struct {
@@ -14,17 +16,20 @@ type User struct {
 func (u *User) Save() error {
 	// save the user to the database
 
-	query := "INSERT INTO users(email, password) VALUES(?, ?)"
+	query := " INSERT INTO users(email, password) VALUES(?,?)"
 	prepare, err := db.DB.Prepare(query)
 	if err != nil {
+
 		return err
 	}
 	defer func(prepare *sql.Stmt) {
-		prepare.Close()
+		_ = prepare.Close()
 	}(prepare)
 
-	result, err := prepare.Exec(u.Email, u.Password)
+	hashedPassword, err := utils.HashPassword(u.Password)
+	result, err := prepare.Exec(u.Email, hashedPassword)
 	if err != nil {
+		fmt.Print(err)
 		return err
 	}
 	userId, err := result.LastInsertId()
