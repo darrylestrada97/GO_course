@@ -36,3 +36,19 @@ func (u *User) Save() error {
 	u.ID = int(userId)
 	return err
 }
+
+func (u *User) VerifyUser() error {
+
+	query := "SELECT password FROM users WHERE email = ?"
+	row := db.DB.QueryRow(query, u.Email)
+	var password string
+	err := row.Scan(&password)
+	if err != nil {
+		return err
+	}
+	passwordIsValid := utils.CheckPasswordHash(u.Password, password)
+	if !passwordIsValid {
+		return fmt.Errorf("invalid password")
+	}
+	return nil
+}

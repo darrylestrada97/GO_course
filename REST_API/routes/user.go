@@ -32,3 +32,27 @@ func signup(c *gin.Context) {
 		"message": user,
 	})
 }
+
+func login(c *gin.Context) {
+	// login a user
+	var user models.User
+	err := c.ShouldBindJSON(&user)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "bad_request"})
+		fmt.Println(err)
+		return
+	}
+	err = user.VerifyUser()
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"error":   "unauthorized",
+			"message": err,
+		})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"status":  "ok",
+		"message": "logged in",
+	})
+}
