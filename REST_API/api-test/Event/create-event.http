@@ -1,5 +1,6 @@
 POST localhost:8080/events
 content-type: application/jsonDateTime
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBydWVzYmFAZ21haWwuY29tIiwiZXhwIjoxNzE4MDU5MTI4LCJ1c2VySWQiOjJ9.z6FlYzZ1gNQzgxl3y5omphVdRgKzy7_MLdqqkY59dNc
 
 {
   "Name": "Event 5",
