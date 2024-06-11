@@ -14,7 +14,7 @@ func Authenticate(c *gin.Context) {
 		})
 		return
 	}
-	_, err := utils.VerifyToken(token)
+	userId, err := utils.VerifyToken(token)
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
 			"error": "unauthorized",
@@ -22,5 +22,6 @@ func Authenticate(c *gin.Context) {
 		return
 
 	}
+	c.Set("userId", userId)
 	c.Next()
 }

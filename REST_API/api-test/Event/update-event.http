@@ -1,10 +1,11 @@
 PUT localhost:8080/events/1
 content-type: application/json
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBydWVzYmEyQGdtYWlsLmNvbSIsImV4cCI6MTcxODEzNTMzMiwidXNlcklkIjozfQ.1u7axmNAi3L7B53oQVQTfrIyjLZ0EPJi3Kn7zzGZyXg
 
 {
   "Name": "Event updated!",
   "Description": "Event 1 description",
   "DateTime": "2021-12-31T23:59:59.000Z",
   "Location": "Event 1 location",
-  "user_id": 4
+  "user_id": 3
 }

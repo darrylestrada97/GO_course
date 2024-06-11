@@ -1,11 +1,11 @@
 POST localhost:8080/events
 content-type: application/jsonDateTime
-authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBydWVzYmFAZ21haWwuY29tIiwiZXhwIjoxNzE4MDU5MTI4LCJ1c2VySWQiOjJ9.z6FlYzZ1gNQzgxl3y5omphVdRgKzy7_MLdqqkY59dNc
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBydWVzYmEyQGdtYWlsLmNvbSIsImV4cCI6MTcxODEzNTMzMiwidXNlcklkIjozfQ.1u7axmNAi3L7B53oQVQTfrIyjLZ0EPJi3Kn7zzGZyXg
 
 {
-  "Name": "Event 5",
-  "Description": "Event 1 description",
+  "Name": "Event new",
+  "Description": "Event new",
   "DateTime": "2021-12-31T23:59:59.000Z",
-  "Location": "Event 5 location"
+  "Location": "Event new location"
 }
 

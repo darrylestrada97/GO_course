@@ -2,7 +2,6 @@ package routes
 
 import (
 	"example/rest_api/models"
-	"example/rest_api/utils"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -10,21 +9,6 @@ import (
 
 func GetEvent(c *gin.Context) {
 
-	token := c.Request.Header.Get("Authorization")
-	if token == "" {
-		c.JSON(http.StatusUnauthorized, gin.H{
-			"error": "unauthorized",
-		})
-		return
-	}
-	err := utils.VerifyToken(token)
-	if err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{
-			"error": "unauthorized",
-		})
-		return
-
-	}
 	id := c.Param("id")
 	event, err := models.GetEvent(id)
 	if err != nil {
@@ -36,24 +20,9 @@ func GetEvent(c *gin.Context) {
 	c.JSON(http.StatusOK, event)
 }
 func CreateEvents(c *gin.Context) {
-	token := c.Request.Header.Get("Authorization")
-	if token == "" {
-		c.JSON(http.StatusUnauthorized, gin.H{
-			"error": "unauthorized",
-		})
-		return
-	}
-	err := utils.VerifyToken(token)
-	if err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{
-			"error": "unauthorized",
-		})
-		return
-
-	}
 
 	var event models.Event
-	err = c.ShouldBindJSON(&event)
+	err := c.ShouldBindJSON(&event)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "bad_request"})
@@ -62,7 +31,7 @@ func CreateEvents(c *gin.Context) {
 		return
 	}
 
-	event.UserID = 1
+	event.UserID = c.GetInt("userId")
 
 	err = event.Save()
 	if err != nil {
